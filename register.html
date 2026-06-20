@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHAWMING · Register</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* ===== الخلفية qd.png - ظاهرة بقوة ===== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: url('qd.png') center/cover no-repeat;
+      background-color: #0a0f02;
+      filter: brightness(0.85) saturate(1.1) contrast(1.05);
+      z-index: 0;
+    }
+
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, 
+        rgba(23, 255, 58, 0.15) 0%, 
+        rgba(0, 0, 0, 0.3) 50%, 
+        rgba(23, 255, 58, 0.1) 100%);
+      z-index: 1;
+      mix-blend-mode: overlay;
+    }
+
+    .bg-fallback {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(23, 255, 58, 0.2) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(166, 255, 0, 0.15) 0%, transparent 50%),
+        #0a0f02;
+      z-index: -1;
+    }
+
+    /* ===== شبكة هاكر ===== */
+    .hacker-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(23, 255, 58, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 255, 58, 0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== زخارف على الخلفية ===== */
+    .decorations {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .decoration {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.12);
+      font-family: monospace;
+      font-size: 16px;
+      white-space: nowrap;
+      text-shadow: 0 0 12px rgba(23, 255, 58, 0.5);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .dec-1 { top: 3%; left: 5%; font-size: 20px; }
+    .dec-2 { top: 8%; right: 6%; font-size: 15px; }
+    .dec-3 { bottom: 10%; left: 6%; font-size: 18px; }
+    .dec-4 { bottom: 15%; right: 8%; font-size: 22px; }
+    .dec-5 { top: 45%; left: 2%; font-size: 24px; }
+    .dec-6 { top: 55%; right: 3%; font-size: 20px; }
+    .dec-7 { top: 20%; left: 50%; font-size: 16px; transform: translateX(-50%); }
+    .dec-8 { bottom: 30%; left: 50%; font-size: 14px; transform: translateX(-50%); }
+
+    /* ===== جسيمات ===== */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.15);
+      font-family: monospace;
+      font-size: 14px;
+      animation: floatUp 4s linear infinite;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== صندوق التسجيل - شفاف عشان الخلفية باينة ===== */
+    .register-container {
+      position: relative;
+      z-index: 3;
+      width: 90%;
+      max-width: 500px;
+      background: rgba(5, 10, 2, 0.55);
+      backdrop-filter: blur(14px);
+      border: 2px solid rgba(23, 255, 58, 0.5);
+      border-radius: 30px;
+      padding: 40px 35px;
+      box-shadow: 0 0 80px rgba(23, 255, 58, 0.2), inset 0 0 60px rgba(23, 255, 58, 0.06);
+      animation: fadeInUp 1s ease-out;
+      margin: 30px 0;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo-icon {
+      font-size: 50px;
+      color: #17ff3a;
+      text-shadow: 0 0 30px rgba(23, 255, 58, 0.8);
+      animation: pulse 2s ease-in-out infinite;
+      display: block;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .logo-title {
+      font-size: 32px;
+      font-weight: 900;
+      color: #17ff3a;
+      text-shadow: 0 0 25px rgba(23, 255, 58, 0.8);
+      letter-spacing: 4px;
+      margin-top: 5px;
+    }
+
+    .subtitle {
+      color: #5aaa3a;
+      font-size: 12px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      font-family: monospace;
+      margin-top: 5px;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    /* ===== تبويب ===== */
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 25px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 40px;
+      padding: 5px;
+      border: 1px solid rgba(23, 255, 58, 0.3);
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px 15px;
+      border-radius: 35px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      color: rgba(23, 255, 58, 0.7);
+      background: transparent;
+      border: none;
+      font-family: 'Arial', sans-serif;
+      text-shadow: 0 0 6px rgba(23, 255, 58, 0.3);
+    }
+
+    .tab.active {
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      color: #000;
+      box-shadow: 0 0 25px rgba(23, 255, 58, 0.5);
+      text-shadow: none;
+    }
+
+    .tab:hover:not(.active) {
+      color: #17ff3a;
+      background: rgba(23, 255, 58, 0.1);
+    }
+
+    /* ===== الفورم ===== */
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group label {
+      display: block;
+      color: #a6ff00;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      font-family: monospace;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.5);
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 75px 14px 18px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(23, 255, 58, 0.4);
+      border-radius: 15px;
+      color: #fff;
+      font-size: 16px;
+      font-family: 'Arial', sans-serif;
+      outline: none;
+      transition: 0.3s;
+      letter-spacing: 1px;
+    }
+
+    .input-group input:focus {
+      border-color: #17ff3a;
+      box-shadow: 0 0 25px rgba(23, 255, 58, 0.25);
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(23, 255, 58, 0.5);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    /* ===== أيقونة العين الحمراء لكلمة المرور ===== */
+    .toggle-password {
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #ff3333;
+      font-size: 20px;
+      transition: 0.3s;
+      z-index: 2;
+      user-select: none;
+      text-shadow: 0 0 10px rgba(255, 50, 50, 0.6);
+      animation: redGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes redGlow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 50, 50, 0.6); }
+      50% { text-shadow: 0 0 20px rgba(255, 50, 50, 0.9), 0 0 30px rgba(255, 0, 0, 0.5); }
+    }
+
+    .toggle-password:hover {
+      color: #ff0000;
+      text-shadow: 0 0 25px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.5);
+      transform: translateY(-50%) scale(1.2);
+    }
+
+    .toggle-password.revealed {
+      color: #ff0000;
+      text-shadow: 0 0 20px rgba(255, 0, 0, 0.9), 0 0 35px rgba(255, 0, 0, 0.6);
+      animation: redPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes redPulse {
+      0%, 100% { text-shadow: 0 0 20px rgba(255, 0, 0, 0.9); }
+      50% { text-shadow: 0 0 35px rgba(255, 0, 0, 1), 0 0 50px rgba(255, 0, 0, 0.7); }
+    }
+
+    /* ===== رسالة ===== */
+    .message {
+      display: none;
+      padding: 12px 18px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 1px;
+      backdrop-filter: blur(5px);
+    }
+
+    .message.error {
+      display: block;
+      background: rgba(255, 50, 50, 0.2);
+      border: 1px solid rgba(255, 50, 50, 0.5);
+      color: #ff6b6b;
+      text-shadow: 0 0 8px rgba(255, 50, 50, 0.4);
+    }
+
+    .message.success {
+      display: block;
+      background: rgba(23, 255, 58, 0.15);
+      border: 1px solid rgba(23, 255, 58, 0.5);
+      color: #17ff3a;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.5);
+    }
+
+    /* ===== مربع الموافقة ===== */
+    .terms-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+      margin-top: 5px;
+    }
+
+    .terms-group input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(23, 255, 58, 0.5);
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      transition: 0.3s;
+      margin-top: 2px;
+    }
+
+    .terms-group input[type="checkbox"]:checked {
+      background: #17ff3a;
+      border-color: #17ff3a;
+      box-shadow: 0 0 15px rgba(23, 255, 58, 0.5);
+    }
+
+    .terms-group input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .terms-label {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 0.5px;
+    }
+
+    .terms-label a {
+      color: #17ff3a;
+      text-decoration: none;
+      font-weight: bold;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+      transition: 0.3s;
+    }
+
+    .terms-label a:hover {
+      text-decoration: underline;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.7);
+    }
+
+    /* ===== مربع حوار منبثق ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: rgba(5, 15, 2, 0.95);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(23, 255, 58, 0.6);
+      border-radius: 25px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 70vh;
+      overflow-y: auto;
+      box-shadow: 0 0 80px rgba(23, 255, 58, 0.3);
+      animation: modalFadeIn 0.4s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-title {
+      color: #17ff3a;
+      font-size: 22px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(23, 255, 58, 0.6);
+      letter-spacing: 2px;
+    }
+
+    .modal-body {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 13px;
+      line-height: 1.8;
+      letter-spacing: 0.5px;
+      margin-bottom: 25px;
+    }
+
+    .modal-body strong {
+      color: #17ff3a;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    .modal-close {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 900;
+      color: #000;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(23, 255, 58, 0.4);
+      transition: 0.3s;
+      letter-spacing: 2px;
+    }
+
+    .modal-close:hover {
+      box-shadow: 0 0 45px rgba(23, 255, 58, 0.7);
+    }
+
+    /* ===== زر التسجيل ===== */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(23, 255, 58, 0.5);
+      transition: 0.3s;
+      letter-spacing: 3px;
+      font-family: 'Arial', sans-serif;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      margin-top: 5px;
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 60px rgba(23, 255, 58, 0.8);
+      background: linear-gradient(145deg, #2fff00, #3aff00);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.2);
+    }
+
+    /* ===== رابط العودة ===== */
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: rgba(23, 255, 58, 0.6);
+      text-decoration: none;
+      font-size: 13px;
+      font-family: monospace;
+      letter-spacing: 2px;
+      transition: 0.3s;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.3);
+    }
+
+    .back-link a:hover {
+      color: #17ff3a;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.6);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 500px) {
+      .register-container {
+        padding: 30px 20px;
+        margin: 20px 0;
+      }
+      .logo-title {
+        font-size: 26px;
+      }
+      .submit-btn {
+        font-size: 16px;
+        padding: 14px;
+      }
+      .modal-box {
+        padding: 20px;
+      }
+      .input-group input {
+        padding: 14px 65px 14px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== خلفية ===== -->
+  <div class="bg-fallback"></div>
+  <div class="bg" id="bgImage"></div>
+  <div class="hacker-grid"></div>
+
+  <!-- ===== زخارف ===== -->
+  <div class="decorations">
+    <div class="decoration dec-1">꧁༒☬SHΛWMING☬༒꧂</div>
+    <div class="decoration dec-2">☠︎︎⚡『SHΛWMING』⚡☠︎︎</div>
+    <div class="decoration dec-3">◥꧁☠SHΛWMING☠꧂◤</div>
+    <div class="decoration dec-4">★彡[SHΛWMING]彡★</div>
+    <div class="decoration dec-5">♛『S H Λ W M I N G』♛</div>
+    <div class="decoration dec-6">༄𖣘SHΛWMING𖣘༄</div>
+    <div class="decoration dec-7">▄︻デSHΛWMING══━一</div>
+    <div class="decoration dec-8">꧁𓊈𒆜SHΛWMING𒆜𓊉꧂</div>
+  </div>
+
+  <!-- ===== جسيمات ===== -->
+  <div class="particles" id="particles"></div>
+
+  <!-- ===== صندوق التسجيل ===== -->
+  <div class="register-container">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <div class="logo-title">SHAWMING</div>
+      <div class="subtitle">• Secure Access •</div>
+    </div>
+
+    <!-- تبويب -->
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Login</button>
+      <button class="tab" data-tab="signup">Sign Up</button>
+    </div>
+
+    <!-- رسالة -->
+    <div class="message" id="message"></div>
+
+    <!-- ===== فورم تسجيل الدخول ===== -->
+    <div class="form-section active" id="loginSection">
+      <div class="input-group">
+        <label>Email or Phone</label>
+        <div class="input-wrapper">
+          <input type="text" id="loginEmail" placeholder="Enter email or phone number">
+          <span class="input-icon">⌘</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="loginPassword" placeholder="Enter password">
+          <span class="toggle-password" data-target="loginPassword">☠</span>
+          <span class="input-icon" style="right: 14px;">⌬</span>
+        </div>
+      </div>
+      <button class="submit-btn" id="loginBtn">LOGIN</button>
+    </div>
+
+    <!-- ===== فورم حساب جديد ===== -->
+    <div class="form-section" id="signupSection">
+      <div class="input-group">
+        <label>Email</label>
+        <div class="input-wrapper">
+          <input type="email" id="signupEmail" placeholder="Enter email address">
+          <span class="input-icon">⍟</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Phone (Optional)</label>
+        <div class="input-wrapper">
+          <input type="tel" id="signupPhone" placeholder="Enter phone number">
+          <span class="input-icon">⌗</span>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="signupPassword" placeholder="Create password (min 6 characters)">
+          <span class="toggle-password" data-target="signupPassword">☠</span>
+          <span class="input-icon" style="right: 14px;">⎈</span>
+        </div>
+      </div>
+
+      <!-- مربع الموافقة -->
+      <div class="terms-group">
+        <input type="checkbox" id="agreeTerms">
+        <label class="terms-label" for="agreeTerms">
+          I agree to the 
+          <a href="#" id="showTerms">Terms of Service</a> 
+          and 
+          <a href="#" id="showPrivacy">Privacy Policy</a>
+        </label>
+      </div>
+
+      <button class="submit-btn" id="signupBtn">CREATE ACCOUNT</button>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">← Back to Gate</a>
+    </div>
+  </div>
+
+  <!-- ===== مربع حوار الشروط ===== -->
+  <div class="modal-overlay" id="termsModal">
+    <div class="modal-box">
+      <div class="modal-title" id="modalTitle">Terms of Service</div>
+      <div class="modal-body" id="modalBody"></div>
+      <button class="modal-close" id="modalClose">I Understand</button>
+    </div>
+  </div>
+
+  <!-- ===== Firebase ===== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB78JT_cbPMizvzKWBrQoQUe3-zukHrr1U",
+      authDomain: "pharacoin.firebaseapp.com",
+      projectId: "pharacoin",
+      storageBucket: "pharacoin.firebasestorage.app",
+      messagingSenderId: "1047668783635",
+      appId: "1:1047668783635:web:10673630ede69c60181de6",
+      measurementId: "G-06CG470MPX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ===== عناصر =====
+    const messageEl = document.getElementById('message');
+    const tabs = document.querySelectorAll('.tab');
+    const loginSection = document.getElementById('loginSection');
+    const signupSection = document.getElementById('signupSection');
+
+    // تبويب
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+        if (target === 'login') {
+          loginSection.classList.add('active');
+          signupSection.classList.remove('active');
+        } else {
+          signupSection.classList.add('active');
+          loginSection.classList.remove('active');
+        }
+        hideMessage();
+      });
+    });
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = 'message ' + type;
+    }
+
+    function hideMessage() {
+      messageEl.className = 'message';
+      messageEl.textContent = '';
+    }
+
+    // ===== أيقونة ☠ لإظهار كلمة المرور (حمراء) =====
+    document.querySelectorAll('.toggle-password').forEach(icon => {
+      icon.addEventListener('click', function() {
+        const targetId = this.dataset.target;
+        const input = document.getElementById(targetId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          this.textContent = '☠';
+          this.classList.add('revealed');
+        } else {
+          input.type = 'password';
+          this.textContent = '☠';
+          this.classList.remove('revealed');
+        }
+      });
+    });
+
+    // ===== مربع حوار =====
+    const modal = document.getElementById('termsModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+
+    const termsText = `
+      <strong>1. Acceptance of Terms</strong><br>
+      By accessing and using SHAWMING services, you agree to be bound by these Terms of Service.<br><br>
+      <strong>2. User Accounts</strong><br>
+      You are responsible for maintaining the confidentiality of your account credentials.<br><br>
+      <strong>3. Prohibited Activities</strong><br>
+      Any unauthorized access, hacking attempts, or misuse of the platform is strictly prohibited.<br><br>
+      <strong>4. Termination</strong><br>
+      We reserve the right to suspend or terminate accounts that violate these terms.<br><br>
+      <strong>5. Limitation of Liability</strong><br>
+      SHAWMING is not liable for any damages arising from the use of our services.
+    `;
+
+    const privacyText = `
+      <strong>1. Information Collection</strong><br>
+      We collect email addresses and phone numbers for account creation and authentication purposes.<br><br>
+      <strong>2. Data Usage</strong><br>
+      Your data is used solely for providing and improving our services.<br><br>
+      <strong>3. Data Protection</strong><br>
+      We implement industry-standard security measures to protect your personal information.<br><br>
+      <strong>4. Third-Party Sharing</strong><br>
+      We do not sell or share your personal data with third parties.<br><br>
+      <strong>5. Your Rights</strong><br>
+      You may request deletion of your data at any time by contacting our support team.
+    `;
+
+    document.getElementById('showTerms').addEventListener('click', (e) => {
+      e.preventDefault();
+      modalTitle.textContent = '📜 Terms of Service';
+      modalBody.innerHTML = termsText;
+      modal.classList.add('active');
+    });
+
+    document.getElementById('showPrivacy').addEventListener('click', (e) => {
+      e.preventDefault();
+      modalTitle.textContent = '🔒 Privacy Policy';
+      modalBody.innerHTML = privacyText;
+      modal.classList.add('active');
+    });
+
+    modalClose.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // ===== تسجيل الدخول =====
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const emailOrPhone = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!emailOrPhone || !password) {
+        showMessage('Please fill in all fields', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.textContent = 'LOGGING IN...';
+
+      try {
+        if (emailOrPhone.startsWith('+')) {
+          showMessage('Phone login requires additional setup. Use email for now.', 'error');
+          btn.disabled = false;
+          btn.textContent = 'LOGIN';
+          return;
+        }
+        
+        await signInWithEmailAndPassword(auth, emailOrPhone, password);
+        showMessage('✅ Login successful! Welcome to SHAWMING', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
+      } catch (error) {
+        showMessage(getErrorMessage(error.code), 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'LOGIN';
+    });
+
+    // ===== حساب جديد =====
+    document.getElementById('signupBtn').addEventListener('click', async () => {
+      const email = document.getElementById('signupEmail').value.trim();
+      const phone = document.getElementById('signupPhone').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const agreed = document.getElementById('agreeTerms').checked;
+
+      if (!email || !password) {
+        showMessage('Email and password are required', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('Password must be at least 6 characters', 'error');
+        return;
+      }
+
+      if (!agreed) {
+        showMessage('You must agree to the Terms of Service and Privacy Policy', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('signupBtn');
+      btn.disabled = true;
+      btn.textContent = 'CREATING ACCOUNT...';
+
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        showMessage('✅ Account created successfully!', 'success');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 1500);
+      } catch (error) {
+        showMessage(getErrorMessage(error.code), 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'CREATE ACCOUNT';
+    });
+
+    function getErrorMessage(code) {
+      const errors = {
+        'auth/email-already-in-use': 'This email is already registered',
+        'auth/invalid-email': 'Invalid email address',
+        'auth/weak-password': 'Password is too weak',
+        'auth/user-not-found': 'No account found with this email',
+        'auth/wrong-password': 'Incorrect password',
+        'auth/invalid-credential': 'Invalid email or password',
+        'auth/too-many-requests': 'Too many attempts. Please try again later',
+        'auth/network-request-failed': 'Network error. Check your connection'
+      };
+      return errors[code] || 'An error occurred. Please try again';
+    }
+
+    // ===== خلفية =====
+    const bg = document.getElementById('bgImage');
+    const img = new Image();
+    img.onload = () => {
+      bg.style.backgroundImage = "url('qd.png')";
+    };
+    img.onerror = () => {
+      bg.style.background = 'radial-gradient(ellipse at center, #0a1a02 0%, #050f01 50%, #000 100%)';
+    };
+    img.src = 'qd.png';
+
+    // ===== جسيمات =====
+    const particlesContainer = document.getElementById('particles');
+    const chars = ['⌘', '⌬', '⍟', '⌗', '⎈', '⌨', '⚡', '☠', '☣', '☢', '⚠', '#', '@', '$', '%', '&', '*'];
+    
+    function createParticle() {
+      const p = document.createElement('span');
+      p.className = 'particle';
+      p.textContent = chars[Math.floor(Math.random() * chars.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      p.style.animationDelay = Math.random() * 5 + 's';
+      particlesContainer.appendChild(p);
+      setTimeout(() => p.remove(), 8000);
+    }
+    setInterval(createParticle, 400);
+    for (let i = 0; i < 15; i++) setTimeout(createParticle, i * 150);
+  </script>
+</body>
+</html>

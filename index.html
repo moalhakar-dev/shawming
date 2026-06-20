@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SHAWMING · Registration Gate</title>
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ===== الخلفية الأولى (qa.png) - ظاهرة بالكامل ===== */
+    .bg-qa {
+      position: fixed;
+      inset: 0;
+      background: url('qa.png') center/contain no-repeat;
+      background-color: #0a0f02;
+      filter: brightness(0.7) saturate(1.1) contrast(1.1);
+      z-index: 0;
+      opacity: 1;
+      transition: opacity 2s ease, filter 2s ease;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .bg-qa.fade-out {
+      opacity: 0;
+      filter: brightness(0.3) saturate(0.5) contrast(1.1);
+    }
+
+    /* ===== الخلفية الثانية (qs.png) ===== */
+    .bg-qs {
+      position: fixed;
+      inset: 0;
+      background: url('qs.png') center/contain no-repeat;
+      background-color: #0a0f02;
+      filter: brightness(0.7) saturate(1.1) contrast(1.1);
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 2s ease, filter 2s ease;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .bg-qs.fade-in {
+      opacity: 1;
+      filter: brightness(0.75) saturate(1.15) contrast(1.15);
+    }
+
+    /* ===== خلفية احتياطية ===== */
+    .bg-fallback {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 30% 40%, rgba(23, 255, 58, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(166, 255, 0, 0.1) 0%, transparent 50%),
+        #0a0f02;
+      z-index: -1;
+    }
+
+    /* ===== شبكة الهاكر الليمونية (خفيفة جداً) ===== */
+    .hacker-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(23, 255, 58, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 255, 58, 0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== تحذير ===== */
+    .bg-warning {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.9);
+      color: #17ff3a;
+      padding: 12px 18px;
+      border: 1px solid #17ff3a;
+      border-radius: 8px;
+      z-index: 100;
+      font-size: 12px;
+      font-family: monospace;
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.3);
+    }
+
+    /* ===== زخارف شاومينج الثابتة ===== */
+    .decorations {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .decoration {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.15);
+      font-family: monospace;
+      font-size: 18px;
+      white-space: nowrap;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.4);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .dec-1 { top: 5%; left: 5%; font-size: 20px; }
+    .dec-2 { top: 8%; right: 5%; font-size: 16px; }
+    .dec-3 { top: 25%; left: 3%; font-size: 14px; }
+    .dec-4 { top: 45%; right: 3%; font-size: 18px; }
+    .dec-5 { top: 65%; left: 8%; font-size: 16px; }
+    .dec-6 { bottom: 15%; right: 8%; font-size: 20px; }
+    .dec-7 { bottom: 30%; left: 4%; font-size: 14px; }
+    .dec-8 { top: 35%; left: 12%; font-size: 22px; }
+    .dec-9 { top: 55%; right: 12%; font-size: 18px; }
+    .dec-10 { bottom: 8%; left: 15%; font-size: 16px; }
+    .dec-11 { top: 15%; left: 40%; font-size: 24px; }
+    .dec-12 { bottom: 40%; right: 20%; font-size: 20px; }
+
+    /* ===== رموز الهاكر العشوائية ===== */
+    .hacker-symbols {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    .hacker-symbols.active {
+      opacity: 1;
+    }
+
+    .hacker-symbols span {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.12);
+      font-family: monospace;
+      font-size: 18px;
+      animation: symbolFloat linear infinite;
+      white-space: nowrap;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.3);
+    }
+
+    @keyframes symbolFloat {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ===== DOOR GATE (بوابة شفافة متحركة) ===== */
+    #doorGate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .door {
+      position: absolute;
+      width: 50%;
+      height: 100%;
+      top: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      transition: transform 2.2s cubic-bezier(0.7, 0, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .door::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(23, 255, 58, 0.04) 60px, rgba(23, 255, 58, 0.04) 61px);
+    }
+
+    .left-door {
+      left: 0;
+      border-right: 2px solid rgba(23, 255, 58, 0.3);
+      box-shadow: inset -20px 0 40px rgba(23, 255, 58, 0.1), 2px 0 15px rgba(23, 255, 58, 0.15);
+    }
+
+    .right-door {
+      right: 0;
+      border-left: 2px solid rgba(23, 255, 58, 0.3);
+      box-shadow: inset 20px 0 40px rgba(23, 255, 58, 0.1), -2px 0 15px rgba(23, 255, 58, 0.15);
+    }
+
+    .door-engravings {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      opacity: 0.6;
+      font-size: 20px;
+      color: #17ff3a;
+      font-family: monospace;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.5);
+    }
+
+    .door-engravings .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .open .left-door {
+      transform: translateX(-105%);
+    }
+
+    .open .right-door {
+      transform: translateX(105%);
+    }
+
+    .inner-light {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(23, 255, 58, 0.7) 0%, rgba(0, 255, 30, 0.25) 25%, rgba(0, 150, 20, 0.08) 50%, transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 2.5s ease;
+      z-index: 1;
+      filter: blur(15px);
+    }
+
+    .open .inner-light {
+      opacity: 1;
+    }
+
+    .gate-text {
+      position: absolute;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .gate-text .symbol-line {
+      font-size: 24px;
+      letter-spacing: 12px;
+      color: #17ff3a;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.6);
+      font-family: monospace;
+    }
+
+    .gate-text .title {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: 5px;
+      font-family: 'Arial', sans-serif;
+      color: #17ff3a;
+      text-shadow: 0 0 25px rgba(23, 255, 58, 0.9), 0 0 50px rgba(0, 255, 30, 0.6);
+      animation: textPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes textPulse {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); text-shadow: 0 0 40px rgba(23, 255, 58, 1), 0 0 70px rgba(0, 255, 30, 0.7); }
+    }
+
+    .gate-text .subtitle {
+      font-size: 12px;
+      color: rgba(23, 255, 58, 0.6);
+      letter-spacing: 4px;
+      font-family: monospace;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    #doorGate.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: 1.5s ease;
+    }
+
+    /* ===== المحتوى بعد فتح البوابة ===== */
+    .overlay {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 20px;
+      opacity: 0;
+      animation: contentFadeIn 1s ease 3.5s forwards;
+      z-index: 3;
+    }
+
+    @keyframes contentFadeIn {
+      to { opacity: 1; }
+    }
+
+    /* ===== الصندوق منزل للأسفل ===== */
+    .gate-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 50px 40px;
+      background: rgba(5, 10, 2, 0.65);
+      backdrop-filter: blur(16px);
+      border: 2px solid rgba(23, 255, 58, 0.4);
+      border-radius: 40px;
+      box-shadow: 0 0 80px rgba(23, 255, 58, 0.15), inset 0 0 60px rgba(23, 255, 58, 0.08);
+      animation: gateEntry 1.2s ease-out 3.5s both;
+      max-width: 600px;
+      width: 90%;
+      margin-top: 80px;
+      transform: translateY(80px);
+    }
+
+    @keyframes gateEntry {
+      0% { opacity: 0; transform: scale(0.8) rotateX(2deg) translateY(80px); filter: blur(4px); }
+      100% { opacity: 1; transform: scale(1) rotateX(0) translateY(80px); filter: blur(0); }
+    }
+
+    .gate-icon {
+      font-size: 70px;
+      color: #17ff3a;
+      text-shadow: 0 0 40px rgba(23, 255, 58, 0.6), 0 0 80px rgba(0, 255, 30, 0.3);
+      margin-bottom: 10px;
+      animation: pulse 2s ease-in-out infinite;
+      display: block;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .main-title {
+      font-size: 52px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      margin-bottom: 5px;
+      color: #17ff3a;
+      text-shadow: 0 0 30px rgba(23, 255, 58, 0.6), 0 0 60px rgba(0, 255, 30, 0.3);
+      animation: textPulse 2s ease-in-out infinite;
+      display: inline-block;
+    }
+
+    .subtitle {
+      color: #3a8a2a;
+      font-size: 16px;
+      letter-spacing: 8px;
+      margin-bottom: 40px;
+      font-weight: 300;
+      text-transform: uppercase;
+      font-family: monospace;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.2);
+    }
+
+    .register-btn {
+      display: inline-block;
+      padding: 18px 60px;
+      font-size: 24px;
+      font-weight: 900;
+      font-family: 'Arial', sans-serif;
+      color: #000;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 0 40px rgba(23, 255, 58, 0.5);
+      transition: 0.3s;
+      text-decoration: none;
+      letter-spacing: 3px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .register-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 62px;
+      background: linear-gradient(45deg, #17ff3a, transparent, #a6ff00, transparent);
+      background-size: 400% 400%;
+      animation: btnBorder 3s linear infinite;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    @keyframes btnBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .register-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 70px rgba(23, 255, 58, 0.8);
+      background: linear-gradient(145deg, #2fff00, #3aff00);
+    }
+
+    .hacker-lines {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.08);
+      font-size: 11px;
+      font-family: monospace;
+      pointer-events: none;
+      white-space: pre;
+      line-height: 1.2;
+      z-index: 1;
+    }
+
+    .line-top {
+      top: 15px;
+      left: 25px;
+      right: 25px;
+      text-align: left;
+    }
+
+    .line-bottom {
+      bottom: 15px;
+      left: 25px;
+      right: 25px;
+      text-align: right;
+    }
+
+    .footer-year {
+      margin-top: 20px;
+      color: rgba(23, 255, 58, 0.2);
+      font-family: monospace;
+      font-size: 14px;
+      letter-spacing: 4px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .main-title { font-size: 32px; }
+      .register-btn { padding: 14px 40px; font-size: 20px; }
+      .gate-icon { font-size: 50px; }
+      .gate-content { 
+        padding: 35px 25px;
+        margin-top: 60px;
+        transform: translateY(60px);
+      }
+      @keyframes gateEntry {
+        0% { opacity: 0; transform: scale(0.8) rotateX(2deg) translateY(60px); filter: blur(4px); }
+        100% { opacity: 1; transform: scale(1) rotateX(0) translateY(60px); filter: blur(0); }
+      }
+      .gate-text .title { font-size: 28px; }
+      .decoration { font-size: 12px !important; }
+    }
+
+    @media (max-width: 400px) {
+      .main-title { font-size: 24px; }
+      .register-btn { padding: 12px 30px; font-size: 18px; }
+      .gate-icon { font-size: 40px; }
+      .gate-content { 
+        padding: 25px 18px;
+        margin-top: 40px;
+        transform: translateY(40px);
+      }
+      @keyframes gateEntry {
+        0% { opacity: 0; transform: scale(0.8) rotateX(2deg) translateY(40px); filter: blur(4px); }
+        100% { opacity: 1; transform: scale(1) rotateX(0) translateY(40px); filter: blur(0); }
+      }
+      .gate-text .title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== خلفية احتياطية ===== -->
+  <div class="bg-fallback"></div>
+
+  <!-- ===== الخلفية الأولى (qa.png) ===== -->
+  <div class="bg-qa" id="bgQa"></div>
+
+  <!-- ===== الخلفية الثانية (qs.png) ===== -->
+  <div class="bg-qs" id="bgQs"></div>
+
+  <!-- ===== شبكة الهاكر ===== -->
+  <div class="hacker-grid"></div>
+
+  <!-- ===== زخارف شاومينج الثابتة ===== -->
+  <div class="decorations">
+    <div class="decoration dec-1">꧁༒☬SHΛWMING☬༒꧂</div>
+    <div class="decoration dec-2">☠︎︎⚡『SHΛWMING』⚡☠︎︎</div>
+    <div class="decoration dec-3">▄︻デSHΛWMING══━一</div>
+    <div class="decoration dec-4">꧁𓊈𒆜SHΛWMING𒆜𓊉꧂</div>
+    <div class="decoration dec-5">◥꧁☠SHΛWMING☠꧂◤</div>
+    <div class="decoration dec-6">༄𖣘SHΛWMING𖣘༄</div>
+    <div class="decoration dec-7">★彡[SHΛWMING]彡★</div>
+    <div class="decoration dec-8">♛『S H Λ W M I N G』♛</div>
+    <div class="decoration dec-9">꧁༒☬SHΛWMING☬༒꧂</div>
+    <div class="decoration dec-10">☠︎︎⚡『SHΛWMING』⚡☠︎︎</div>
+    <div class="decoration dec-11">◥꧁☠SHΛWMING☠꧂◤</div>
+    <div class="decoration dec-12">★彡[SHΛWMING]彡★</div>
+  </div>
+
+  <!-- ===== تحذير ===== -->
+  <div class="bg-warning" id="bgWarning">⚠️ Images not found - using lemon background</div>
+
+  <!-- ===== رموز الهاكر ===== -->
+  <div class="hacker-symbols" id="hackerSymbols"></div>
+
+  <!-- ===== DOOR GATE ===== -->
+  <div id="doorGate">
+    <div class="door left-door">
+      <div class="door-engravings">
+        <div class="row">⌘ ⌬ ⍟ ⌗ ⎈</div>
+        <div class="row">⚡ ☠ ☣ ☢ ⚠</div>
+        <div class="row"># @ $ % & *</div>
+        <div class="row"><> [] {} /\</div>
+        <div class="row">== != && ||</div>
+      </div>
+    </div>
+    <div class="door right-door">
+      <div class="door-engravings">
+        <div class="row">⌨ ⍟ ⌗ ⎈ ⌘</div>
+        <div class="row">⚠ ☢ ☣ ☠ ⚡</div>
+        <div class="row">* & % $ @ #</div>
+        <div class="row">/\ {} [] <></div>
+        <div class="row">|| && != ==</div>
+      </div>
+    </div>
+    <div class="inner-light"></div>
+
+    <div class="gate-text">
+      <div class="symbol-line">⌘ ⚡ ⍟ ☠ ⌗</div>
+      <div class="title">SHAWMING</div>
+      <div class="subtitle">Opening gate...</div>
+      <div class="symbol-line">⎈ ☢ ☣ ⚠ ⌨</div>
+    </div>
+  </div>
+
+  <!-- ===== المحتوى ===== -->
+  <main class="overlay">
+    <div class="gate-content">
+      <div class="hacker-lines line-top">
+        &lt;!-- ACCESS GRANTED --&gt;
+        <br>// root@shawming:~$
+      </div>
+      <div class="hacker-lines line-bottom">
+        [SYSTEM] SECURE CONNECTION
+        <br>_ decrypting...
+      </div>
+
+      <span class="gate-icon">⚡</span>
+      <h1 class="main-title">SHAWMING</h1>
+      <div class="subtitle">• Registration Gate •</div>
+
+      <a href="register.html" class="register-btn" id="registerBtn">Register Now</a>
+      <div class="footer-year">⌘ 2026 ⚡</div>
+    </div>
+  </main>
+
+  <!-- ===== صوت ===== -->
+  <audio id="gateSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-heavy-stone-door-1607.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    (function() {
+      // ===== رموز الهاكر =====
+      const symbols = [
+        '⌘', '⌬', '⍟', '⌗', '⎈', '⌨',
+        '⚡', '☠', '☣', '☢', '⚠',
+        '#', '@', '$', '%', '&', '*',
+        '<>', '[]', '{}', '/\\',
+        '==', '!=', '&&', '||',
+        '0', '1', '░', '▓', '│', '┤'
+      ];
+      const container = document.getElementById('hackerSymbols');
+
+      function createSymbols(count = 120) {
+        for (let i = 0; i < count; i++) {
+          const span = document.createElement('span');
+          span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          span.style.left = Math.random() * 100 + '%';
+          span.style.fontSize = (12 + Math.random() * 30) + 'px';
+          span.style.animationDuration = (8 + Math.random() * 18) + 's';
+          span.style.animationDelay = Math.random() * 12 + 's';
+          span.style.opacity = 0.05 + Math.random() * 0.2;
+          span.style.color = `rgba(${23 + Math.random() * 50}, ${200 + Math.random() * 55}, ${30 + Math.random() * 40}, ${0.08 + Math.random() * 0.25})`;
+          container.appendChild(span);
+        }
+      }
+      createSymbols(120);
+
+      // ===== التحقق من الصور =====
+      const bgQa = document.getElementById('bgQa');
+      const bgQs = document.getElementById('bgQs');
+      const warning = document.getElementById('bgWarning');
+
+      const imgQa = new Image();
+      imgQa.onload = function() {
+        console.log('✅ qa.png loaded successfully');
+        bgQa.style.backgroundImage = "url('qa.png')";
+        bgQa.style.display = 'block';
+      };
+      imgQa.onerror = function() {
+        console.warn('❌ qa.png not found');
+        bgQa.style.background = 'radial-gradient(ellipse at center, #0a1a02 0%, #050f01 50%, #000 100%)';
+        warning.style.display = 'block';
+      };
+      imgQa.src = 'qa.png';
+
+      const imgQs = new Image();
+      imgQs.onload = function() {
+        console.log('✅ qs.png loaded successfully');
+        bgQs.style.backgroundImage = "url('qs.png')";
+      };
+      imgQs.onerror = function() {
+        console.warn('❌ qs.png not found');
+        bgQs.style.background = 'radial-gradient(ellipse at center, #0a1a02 0%, #050f01 50%, #000 100%)';
+        warning.style.display = 'block';
+        setTimeout(() => {
+          warning.style.display = 'none';
+        }, 6000);
+      };
+      imgQs.src = 'qs.png';
+
+      // ===== فتح البوابة =====
+      const doorGate = document.getElementById('doorGate');
+      const sound = document.getElementById('gateSound');
+      const hackerSymbols = document.getElementById('hackerSymbols');
+
+      function openGate() {
+        sound.volume = 0.25;
+        sound.play().catch(() => {});
+
+        doorGate.classList.add('open');
+
+        setTimeout(() => {
+          hackerSymbols.classList.add('active');
+        }, 800);
+
+        setTimeout(() => {
+          bgQa.classList.add('fade-out');
+          bgQs.classList.add('fade-in');
+        }, 1500);
+
+        setTimeout(() => {
+          doorGate.classList.add('hide');
+        }, 3000);
+      }
+
+      // ===== زر التسجيل - يحول لصفحة register.html =====
+      const registerBtn = document.getElementById('registerBtn');
+      registerBtn.addEventListener('click', function(e) {
+        // منعناش السلوك الافتراضي عشان الرابط يشتغل
+        // الرابط href="register.html" هيحول المستخدم تلقائيًا لصفحة التسجيل
+        const content = document.querySelector('.gate-content');
+        content.style.transition = '0.3s';
+        content.style.boxShadow = '0 0 100px rgba(23, 255, 58, 0.8), inset 0 0 80px rgba(23, 255, 58, 0.3)';
+        content.style.borderColor = '#17ff3a';
+        setTimeout(() => {
+          content.style.boxShadow = '0 0 80px rgba(23, 255, 58, 0.15), inset 0 0 60px rgba(23, 255, 58, 0.08)';
+          content.style.borderColor = 'rgba(23, 255, 58, 0.4)';
+        }, 600);
+        // المستخدم هيتحول تلقائيًا لـ register.html بعد التأثير
+      });
+
+      window.addEventListener('load', function() {
+        setTimeout(openGate, 1500);
+      });
+    })();
+  </script>
+
+</body>
+</html>

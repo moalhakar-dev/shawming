@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شاومينج · لوحة التحكم</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== الخلفية - واضحة كاملة بدون فلتر ===== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: url('qd.png') center/contain no-repeat;
+      background-color: #000;
+      background-size: contain;
+      background-position: center;
+      filter: none;
+      z-index: 0;
+    }
+
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0.2) 0%, 
+        rgba(0, 0, 0, 0.05) 50%, 
+        rgba(0, 0, 0, 0.3) 100%);
+      z-index: 1;
+    }
+
+    .hacker-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(23, 255, 58, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 255, 58, 0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== جسيمات ===== */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.15);
+      font-family: monospace;
+      font-size: 12px;
+      animation: floatUp 4s linear infinite;
+      text-shadow: 0 0 6px rgba(23, 255, 58, 0.3);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.4; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== بانر علوي - متجاوب مع الموبايل ===== */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(23, 255, 58, 0.3);
+      padding: 6px 0;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 15px;
+      gap: 10px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .topbar-icon {
+      font-size: 18px;
+      color: #17ff3a;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.7);
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #17ff3a;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.6);
+      white-space: nowrap;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      color: #17ff3a;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 5px rgba(23, 255, 58, 0.3);
+      white-space: nowrap;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ===== زر التسريب - واضح ومتجاوب ===== */
+    .nav-btn {
+      background: rgba(23, 255, 58, 0.1);
+      border: 1px solid rgba(23, 255, 58, 0.5);
+      color: #17ff3a;
+      padding: 6px 14px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      text-decoration: none;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .nav-btn:hover {
+      background: rgba(23, 255, 58, 0.2);
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.4);
+      border-color: #17ff3a;
+    }
+    .nav-btn .nav-icon {
+      font-size: 15px;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 50, 50, 0.5);
+      color: #ff4444;
+      padding: 5px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 10px;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .logout-btn:hover {
+      background: rgba(255, 50, 50, 0.15);
+      box-shadow: 0 0 15px rgba(255, 50, 50, 0.3);
+    }
+
+    /* ===== المحتوى الرئيسي ===== */
+    .main-content {
+      position: relative;
+      z-index: 3;
+      padding: 65px 15px 40px;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    /* ===== ترحيب ===== */
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 25px;
+      animation: fadeInUp 0.8s ease;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .welcome-title {
+      font-size: 24px;
+      font-weight: 900;
+      color: #17ff3a;
+      text-shadow: 0 0 25px rgba(23, 255, 58, 0.7);
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+    .welcome-email {
+      color: #a6ff00;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 6px rgba(23, 255, 58, 0.3);
+    }
+
+    /* ===== خطوات الشرح ===== */
+    .steps-section {
+      background: rgba(5, 15, 2, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(23, 255, 58, 0.25);
+      border-radius: 25px;
+      padding: 22px 18px;
+      margin-bottom: 25px;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: #17ff3a;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.5);
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(23, 255, 58, 0.12);
+      border-radius: 16px;
+      padding: 14px;
+      transition: 0.3s;
+    }
+
+    .step-item:hover {
+      border-color: rgba(23, 255, 58, 0.4);
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.08);
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      min-width: 34px;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: #000;
+      box-shadow: 0 0 15px rgba(23, 255, 58, 0.4);
+    }
+
+    .step-content h3 {
+      color: #17ff3a;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.3);
+    }
+
+    .step-content p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 11px;
+      line-height: 1.7;
+      letter-spacing: 0.3px;
+    }
+
+    .step-content .highlight {
+      color: #a6ff00;
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(23, 255, 58, 0.3);
+    }
+
+    .step-content .important {
+      color: #ff8800;
+      font-weight: bold;
+      text-shadow: 0 0 6px rgba(255, 150, 0, 0.3);
+    }
+
+    /* ===== أزرار سريعة ===== */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 25px;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+
+    .action-card {
+      background: rgba(5, 15, 2, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(23, 255, 58, 0.25);
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      transition: 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      border-color: #17ff3a;
+      box-shadow: 0 10px 30px rgba(23, 255, 58, 0.15);
+    }
+
+    .action-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .action-name {
+      color: #17ff3a;
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.4);
+    }
+
+    .action-desc {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 10px;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ===== معلومات مهمة ===== */
+    .important-notes {
+      background: rgba(255, 150, 0, 0.04);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 150, 0, 0.25);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 25px;
+      animation: fadeInUp 0.8s ease 0.5s both;
+    }
+
+    .notes-title {
+      color: #ff8800;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(255, 150, 0, 0.4);
+    }
+
+    .notes-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .notes-list li {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 10px;
+      letter-spacing: 0.3px;
+      padding-right: 16px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .notes-list li::before {
+      content: '⚠️';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 9px;
+    }
+
+    /* ===== تذييل ===== */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: rgba(23, 255, 58, 0.2);
+      font-size: 10px;
+      letter-spacing: 2px;
+      animation: fadeInUp 0.8s ease 0.6s both;
+    }
+
+    .footer a {
+      color: rgba(23, 255, 58, 0.35);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .footer a:hover {
+      color: #17ff3a;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    /* ===== توست ===== */
+    .toast {
+      position: fixed;
+      top: 65px;
+      right: 15px;
+      z-index: 200;
+      background: rgba(5, 15, 2, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(23, 255, 58, 0.5);
+      border-radius: 10px;
+      padding: 8px 15px;
+      color: #17ff3a;
+      font-weight: bold;
+      font-size: 11px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.2);
+      animation: slideIn 0.4s ease, slideOut 0.4s ease 2.5s forwards;
+      display: none;
+    }
+    @keyframes slideIn {
+      0% { transform: translateX(120%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(120%); opacity: 0; }
+    }
+
+    /* ===== Responsive للموبايل ===== */
+    @media (max-width: 600px) {
+      .topbar-inner {
+        padding: 0 10px;
+        gap: 5px;
+      }
+      .topbar-title {
+        font-size: 12px;
+      }
+      .topbar-icon {
+        font-size: 16px;
+      }
+      .user-info {
+        display: none;
+      }
+      .nav-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+        gap: 3px;
+      }
+      .nav-btn .nav-icon {
+        font-size: 13px;
+      }
+      .logout-btn {
+        padding: 4px 8px;
+        font-size: 9px;
+      }
+      .welcome-title {
+        font-size: 20px;
+      }
+      .section-title {
+        font-size: 16px;
+      }
+      .step-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .step-number {
+        margin-bottom: 8px;
+      }
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+      .main-content {
+        padding: 60px 10px 30px;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .topbar-title {
+        font-size: 11px;
+      }
+      .nav-btn {
+        font-size: 10px;
+        padding: 4px 8px;
+      }
+      .nav-btn .nav-icon {
+        font-size: 12px;
+      }
+      .welcome-title {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== خلفية واضحة كاملة بدون فلتر ===== -->
+  <div class="bg" id="bgImage"></div>
+  <div class="hacker-grid"></div>
+
+  <!-- ===== جسيمات ===== -->
+  <div class="particles" id="particles"></div>
+
+  <!-- ===== بانر علوي متجاوب ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <span class="topbar-icon">⚡</span>
+        <span class="topbar-title">شاومينج</span>
+      </div>
+      <div class="topbar-right">
+        <span class="user-info" id="userDisplay"></span>
+        <a href="tasks.html" class="nav-btn">
+          <span class="nav-icon">⌨</span> التسريب
+        </a>
+        <a href="#" class="logout-btn" id="logoutBtn">⏻ خروج</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== توست ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== المحتوى ===== -->
+  <main class="main-content">
+
+    <!-- ترحيب -->
+    <section class="welcome-section">
+      <h1 class="welcome-title">مرحباً بك في لوحة التحكم</h1>
+      <p class="welcome-email" id="welcomeEmail"></p>
+    </section>
+
+    <!-- خطوات الحصول على التسريب -->
+    <section class="steps-section">
+      <h2 class="section-title">📖 كيف تحصل على تسريب الامتحان؟</h2>
+      <div class="steps-list">
+
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>اختر قسمك ومحافظتك</h3>
+            <p>توجه إلى صفحة <span class="highlight">التسريب</span> من الزر في الأعلى. اختر <span class="highlight">محافظتك</span> ثم <span class="highlight">قسمك الدراسي</span>.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>قم بالإيداع</h3>
+            <p>بعد اختيار القسم، سيتم تحويلك إلى صفحة <span class="highlight">الدفع</span>. قم بإدخال المبلغ المطلوب واضغط على <span class="highlight">إيداع</span>.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>انضم إلى مجموعة التيليجرام</h3>
+            <p>توجه إلى قناة التيليجرام: <span class="highlight">@Shawmingvipchanal</span> وأرسل <span class="important">إيصال الإيداع</span> مع <span class="important">اسم المحافظة والقسم</span>.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h3>استلم التسريب</h3>
+            <p>فريق الدعم سيتحقق من إيصالك ويقوم بإرسال <span class="highlight">التسريب مباشرة</span> على التيليجرام. التسريب <span class="highlight">مطابق 100%</span>.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- أزرار سريعة -->
+    <section class="quick-actions">
+      <a href="tasks.html" class="action-card">
+        <span class="action-icon">⌨</span>
+        <div class="action-name">صفحة التسريب</div>
+        <div class="action-desc">اختر محافظتك وقسمك الدراسي</div>
+      </a>
+
+      <a href="https://t.me/Shawmingvipchanal" target="_blank" class="action-card">
+        <span class="action-icon">☢</span>
+        <div class="action-name">قناة التيليجرام</div>
+        <div class="action-desc">@Shawmingvipchanal</div>
+      </a>
+
+      <a href="deposit.html" class="action-card">
+        <span class="action-icon">💰</span>
+        <div class="action-name">صفحة الدفع</div>
+        <div class="action-desc">إيداع مباشر سريع وآمن</div>
+      </a>
+    </section>
+
+    <!-- ملاحظات مهمة -->
+    <section class="important-notes">
+      <div class="notes-title">⚠️ ملاحظات هامة قبل الإيداع</div>
+      <ul class="notes-list">
+        <li>تأكد من اختيار <strong>المحافظة الصحيحة</strong> - لكل محافظة امتحان مختلف</li>
+        <li>تأكد من اختيار <strong>القسم الصحيح</strong> (علمي علوم / علمي رياضة / أدبي)</li>
+        <li>الإيداع <strong>غير قابل للاسترداد</strong> بعد إرسال التسريب</li>
+        <li>احتفظ <strong>بإيصال الإيداع</strong> لإرساله لفريق الدعم</li>
+        <li>التسريب يُرسل <strong>حصرياً عبر التيليجرام</strong> فقط</li>
+        <li>للتواصل مع الدعم: <strong>@Shawmingvipchanal</strong></li>
+      </ul>
+    </section>
+
+    <!-- تذييل -->
+    <footer class="footer">
+      <p>© 2026 <a href="#">شاومينج</a> · جميع الحقوق محفوظة</p>
+      <p style="margin-top: 3px;">꧁༒☬ SHAWMING ☬༒꧂</p>
+    </footer>
+
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB78JT_cbPMizvzKWBrQoQUe3-zukHrr1U",
+      authDomain: "pharacoin.firebaseapp.com",
+      projectId: "pharacoin",
+      storageBucket: "pharacoin.firebasestorage.app",
+      messagingSenderId: "1047668783635",
+      appId: "1:1047668783635:web:10673630ede69c60181de6",
+      measurementId: "G-06CG470MPX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const userDisplay = document.getElementById('userDisplay');
+    const welcomeEmail = document.getElementById('welcomeEmail');
+    const toast = document.getElementById('toast');
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.display = 'block';
+      toast.style.animation = 'slideIn 0.4s ease, slideOut 0.4s ease 2.5s forwards';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await signOut(auth);
+      window.location.href = 'index.html';
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userDisplay.textContent = user.email;
+        welcomeEmail.textContent = '📧 ' + user.email;
+        showToast('⚡ أهلاً بك! اتبع الخطوات للحصول على التسريب');
+      } else {
+        window.location.href = 'register.html';
+      }
+    });
+
+    // ===== خلفية =====
+    const bg = document.getElementById('bgImage');
+    const img = new Image();
+    img.onload = () => { bg.style.backgroundImage = "url('qd.png')"; };
+    img.onerror = () => { bg.style.background = '#000'; };
+    img.src = 'qd.png';
+
+    // ===== جسيمات =====
+    const particlesContainer = document.getElementById('particles');
+    const chars = ['⌘', '⌬', '⍟', '⌗', '⎈', '⌨', '⚡', '☠', '☣', '☢', '⚠', '#', '@', '$', '%', '&', '*'];
+    function createParticle() {
+      const p = document.createElement('span');
+      p.className = 'particle';
+      p.textContent = chars[Math.floor(Math.random() * chars.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      p.style.animationDelay = Math.random() * 5 + 's';
+      particlesContainer.appendChild(p);
+      setTimeout(() => p.remove(), 9000);
+    }
+    setInterval(createParticle, 400);
+    for (let i = 0; i < 12; i++) setTimeout(createParticle, i * 120);
+  </script>
+</body>
+</html>
