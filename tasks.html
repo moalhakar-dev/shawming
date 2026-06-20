@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شاومينج · تسريب الامتحانات</title>
+  
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:title" content="شاومينج · تسريب امتحانات الثانوية العامة 2026">
+  <meta property="og:description" content="تسريب مضمون 100% لكل المحافظات - علمي علوم، رياضة، أدبي. سجل الآن واستلم ورقة الأسئلة قبل الامتحان!">
+  <meta property="og:image" content="https://shawming.pages.dev/shawming/qf.png">
+  <meta property="og:url" content="https://shawming.pages.dev/shawming/tasks.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="شاومينج · تسريب امتحانات الثانوية العامة 2026">
+  <meta name="twitter:description" content="تسريب مضمون 100% لكل المحافظات - سجل الآن واستلم ورقة الأسئلة قبل الامتحان!">
+  <meta name="twitter:image" content="https://shawming.pages.dev/shawming/qf.png">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== الخلفية qf.png - واضحة 100% بدون أي تعتيم ===== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: url('qf.png') center/contain no-repeat;
+      background-color: #000;
+      background-size: contain;
+      background-position: center;
+      filter: none;
+      z-index: 0;
+    }
+
+    .hacker-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(23, 255, 58, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 255, 58, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== زخارف ===== */
+    .decorations {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .decoration {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.2);
+      font-family: monospace;
+      font-size: 14px;
+      white-space: nowrap;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.6);
+      font-weight: bold;
+    }
+    .dec-1 { top: 5%; left: 5%; font-size: 20px; }
+    .dec-2 { top: 8%; right: 6%; font-size: 15px; }
+    .dec-3 { bottom: 12%; left: 6%; font-size: 18px; }
+    .dec-4 { bottom: 18%; right: 8%; font-size: 22px; }
+    .dec-5 { top: 45%; left: 2%; font-size: 24px; }
+    .dec-6 { top: 55%; right: 3%; font-size: 20px; }
+
+    /* ===== جسيمات ===== */
+    .particles {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      color: rgba(23, 255, 58, 0.25);
+      font-family: monospace;
+      font-size: 14px;
+      animation: floatUp 4s linear infinite;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.6);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== بانر علوي صغير احترافي ===== */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      border-bottom: 1px solid rgba(23, 255, 58, 0.4);
+      padding: 6px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .topbar-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 25px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar-logo-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-icon {
+      font-size: 22px;
+      color: #17ff3a;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.8);
+      animation: iconPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; text-shadow: 0 0 25px rgba(23, 255, 58, 1); }
+    }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: #17ff3a;
+      letter-spacing: 1px;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.7);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .topbar-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #17ff3a;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(23, 255, 58, 0.4);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: #17ff3a;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(23, 255, 58, 0.8);
+      animation: dotPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .back-btn {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(23, 255, 58, 0.5);
+      color: #17ff3a;
+      padding: 5px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      text-decoration: none;
+      text-shadow: 0 0 6px rgba(23, 255, 58, 0.4);
+      font-family: monospace;
+    }
+    .back-btn:hover {
+      background: rgba(23, 255, 58, 0.2);
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.5);
+      border-color: #17ff3a;
+      transform: scale(1.05);
+    }
+
+    /* ===== المحتوى الرئيسي ===== */
+    .main-content {
+      position: relative;
+      z-index: 3;
+      padding: 70px 25px 50px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ===== العنوان الرئيسي ===== */
+    .hero-section {
+      text-align: center;
+      margin-bottom: 30px;
+      animation: fadeInUp 0.8s ease;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .hero-title {
+      font-size: 36px;
+      font-weight: 900;
+      color: #17ff3a;
+      text-shadow: 0 0 40px rgba(23, 255, 58, 0.9), 0 0 80px rgba(23, 255, 58, 0.5);
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .hero-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 15px;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+    .hero-warning {
+      color: #ff4444;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 50, 50, 0.6);
+    }
+
+    /* ===== المحافظات مباشرة على الخلفية بدون صندوق ===== */
+    .governorate-section {
+      text-align: center;
+      margin-bottom: 35px;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+    .section-label {
+      color: #a6ff00;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 20px rgba(23, 255, 58, 0.8);
+      display: inline-block;
+    }
+    .governorate-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    .gov-btn {
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(3px);
+      border: 1px solid rgba(23, 255, 58, 0.4);
+      color: rgba(255, 255, 255, 0.95);
+      padding: 10px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    .gov-btn:hover {
+      border-color: #17ff3a;
+      color: #17ff3a;
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.35);
+      background: rgba(23, 255, 58, 0.15);
+      transform: translateY(-2px);
+    }
+    .gov-btn.selected {
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      color: #000;
+      border-color: #17ff3a;
+      box-shadow: 0 0 35px rgba(23, 255, 58, 0.7);
+      font-weight: 900;
+      text-shadow: none;
+    }
+
+    /* ===== أقسام الثانوية (شفافة جدا) ===== */
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    .section-card {
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(6px);
+      border: 2px solid rgba(23, 255, 58, 0.3);
+      border-radius: 30px;
+      padding: 30px 22px;
+      text-align: center;
+      transition: 0.4s;
+      animation: fadeInUp 0.8s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+    .section-card:nth-child(1) { animation-delay: 0.2s; }
+    .section-card:nth-child(2) { animation-delay: 0.3s; }
+    .section-card:nth-child(3) { animation-delay: 0.4s; }
+
+    .section-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(23, 255, 58, 0.05) 0%, transparent 70%);
+      transition: 0.4s;
+    }
+    .section-card:hover::before {
+      background: radial-gradient(circle, rgba(23, 255, 58, 0.15) 0%, transparent 70%);
+    }
+    .section-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(23, 255, 58, 0.8);
+      box-shadow: 0 20px 60px rgba(23, 255, 58, 0.3);
+    }
+
+    .section-icon {
+      font-size: 65px;
+      margin-bottom: 12px;
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 20px rgba(23, 255, 58, 0.6));
+    }
+    .section-name {
+      font-size: 26px;
+      font-weight: 900;
+      color: #17ff3a;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+      text-shadow: 0 0 25px rgba(23, 255, 58, 0.8);
+      position: relative;
+      z-index: 1;
+    }
+    .section-desc {
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+    .section-subjects {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: center;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+    .subject-tag {
+      background: rgba(23, 255, 58, 0.12);
+      border: 1px solid rgba(23, 255, 58, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+      padding: 6px 13px;
+      border-radius: 18px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .leak-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: 900;
+      color: #000;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(23, 255, 58, 0.5);
+      transition: 0.3s;
+      letter-spacing: 2px;
+      text-decoration: none;
+      position: relative;
+      z-index: 1;
+      border: 2px solid rgba(255, 255, 255, 0.25);
+    }
+    .leak-btn:hover {
+      box-shadow: 0 0 65px rgba(23, 255, 58, 0.9);
+      transform: scale(1.04);
+      background: linear-gradient(145deg, #2fff00, #3aff00);
+      letter-spacing: 4px;
+    }
+    .leak-btn.disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+      filter: grayscale(0.7);
+    }
+
+    /* ===== معلومات (شفافة جدا) ===== */
+    .info-section {
+      background: rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(23, 255, 58, 0.2);
+      border-radius: 25px;
+      padding: 25px;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease 0.5s both;
+    }
+    .info-title {
+      color: #17ff3a;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 20px rgba(23, 255, 58, 0.6);
+      text-align: center;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+    .info-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(23, 255, 58, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    .info-card:hover {
+      border-color: rgba(23, 255, 58, 0.5);
+      box-shadow: 0 0 25px rgba(23, 255, 58, 0.2);
+    }
+    .info-icon {
+      font-size: 34px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .info-card-title {
+      color: #17ff3a;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.5);
+    }
+    .info-card-desc {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+    }
+
+    /* ===== تذييل صغير ===== */
+    .footer {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(23, 255, 58, 0.3);
+      padding: 20px 25px 15px;
+      text-align: center;
+      animation: fadeInUp 0.8s ease 0.6s both;
+      position: relative;
+      z-index: 3;
+    }
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .footer-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #17ff3a;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+      text-shadow: 0 0 15px rgba(23, 255, 58, 0.6);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      color: rgba(23, 255, 58, 0.5);
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 1px;
+      transition: 0.3s;
+    }
+    .footer-links a:hover {
+      color: #17ff3a;
+      text-shadow: 0 0 10px rgba(23, 255, 58, 0.6);
+    }
+    .footer-copyright {
+      color: rgba(23, 255, 58, 0.3);
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+    .footer-decoration {
+      color: rgba(23, 255, 58, 0.15);
+      font-size: 12px;
+      margin-top: 5px;
+      letter-spacing: 3px;
+    }
+
+    /* ===== زر دعم عائم ☢ ===== */
+    .floating-support {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 200;
+      width: 55px;
+      height: 55px;
+      background: linear-gradient(145deg, #a6ff00, #17ff3a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 35px rgba(23, 255, 58, 0.7), 0 8px 25px rgba(0, 0, 0, 0.5);
+      transition: 0.3s;
+      text-decoration: none;
+      animation: floatBtn 3s ease-in-out infinite;
+    }
+
+    @keyframes floatBtn {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .floating-support:hover {
+      transform: scale(1.15) translateY(-5px);
+      box-shadow: 0 0 60px rgba(23, 255, 58, 1), 0 12px 35px rgba(0, 0, 0, 0.6);
+      animation: none;
+    }
+
+    .floating-support-icon {
+      font-size: 28px;
+      color: #000;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+      animation: iconSpin 4s linear infinite;
+    }
+
+    @keyframes iconSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .floating-support:hover .floating-support-icon {
+      animation: iconSpinFast 1s linear infinite;
+    }
+
+    @keyframes iconSpinFast {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .floating-support::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(23, 255, 58, 0.5);
+      animation: ripplePulse 2s ease-out infinite;
+    }
+
+    @keyframes ripplePulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    .floating-tooltip {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.9);
+      color: #17ff3a;
+      padding: 6px 14px;
+      border-radius: 18px;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      border: 1px solid rgba(23, 255, 58, 0.5);
+      box-shadow: 0 0 20px rgba(23, 255, 58, 0.3);
+      opacity: 0;
+      transition: 0.3s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .floating-support:hover + .floating-tooltip {
+      opacity: 1;
+      bottom: 95px;
+    }
+
+    /* ===== توست ===== */
+    .toast {
+      position: fixed;
+      top: 80px;
+      right: 25px;
+      z-index: 200;
+      background: rgba(5, 15, 2, 0.95);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 50, 50, 0.5);
+      border-radius: 12px;
+      padding: 12px 22px;
+      color: #ff4444;
+      font-weight: bold;
+      font-size: 13px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 25px rgba(255, 50, 50, 0.2);
+      animation: slideIn 0.4s ease, slideOut 0.4s ease 2.5s forwards;
+      display: none;
+    }
+    @keyframes slideIn {
+      0% { transform: translateX(120%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      0% { transform: translateX(0); opacity: 1; }
+      100% { transform: translateX(120%); opacity: 0; }
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .topbar-inner { gap: 8px; }
+      .hero-title { font-size: 26px; }
+      .sections-grid { grid-template-columns: 1fr; }
+      .gov-btn { font-size: 11px; padding: 8px 14px; }
+      .floating-support { width: 48px; height: 48px; bottom: 20px; right: 20px; }
+      .floating-support-icon { font-size: 24px; }
+    }
+    @media (max-width: 500px) {
+      .main-content { padding: 65px 10px 30px; }
+      .hero-title { font-size: 20px; }
+      .section-card { padding: 22px 15px; }
+      .section-name { font-size: 20px; }
+      .leak-btn { font-size: 15px; padding: 13px; }
+      .topbar-title { font-size: 12px; }
+      .topbar-icon { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== خلفية qf.png - واضحة 100% بدون تعتيم ===== -->
+  <div class="bg" id="bgImage"></div>
+  <div class="hacker-grid"></div>
+
+  <!-- ===== زخارف ===== -->
+  <div class="decorations">
+    <div class="decoration dec-1">꧁༒☬SHΛWMING☬༒꧂</div>
+    <div class="decoration dec-2">☠︎︎⚡『SHΛWMING』⚡☠︎︎</div>
+    <div class="decoration dec-3">◥꧁☠SHΛWMING☠꧂◤</div>
+    <div class="decoration dec-4">★彡[SHΛWMING]彡★</div>
+    <div class="decoration dec-5">♛『S H Λ W M I N G』♛</div>
+    <div class="decoration dec-6">▄︻デSHΛWMING══━一</div>
+  </div>
+
+  <!-- ===== جسيمات ===== -->
+  <div class="particles" id="particles"></div>
+
+  <!-- ===== بانر علوي صغير احترافي ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <div class="topbar-logo-wrapper">
+          <span class="topbar-icon">⚡</span>
+          <span class="topbar-title">꧁༒☬لوحة التحكم☬༒꧂</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-status">
+          <span class="status-dot"></span>
+          متصل
+        </div>
+        <a href="dashboard.html" class="back-btn">꧁༒☬ dashboard ☬༒꧂</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== توست ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== المحتوى ===== -->
+  <main class="main-content">
+
+    <section class="hero-section">
+      <h1 class="hero-title">تسريب امتحانات الثانوية العامة 2026</h1>
+      <p class="hero-subtitle">اختر محافظتك ثم قسمك الدراسي</p>
+      <p class="hero-warning">⚠️ يجب اختيار المحافظة أولاً قبل الضغط على القسم</p>
+    </section>
+
+    <!-- محافظات مباشرة على الخلفية بدون صندوق -->
+    <section class="governorate-section">
+      <div class="section-label">📍 اختر محافظتك</div>
+      <div class="governorate-grid" id="governorateGrid"></div>
+    </section>
+
+    <!-- أقسام -->
+    <section class="sections-grid">
+      <div class="section-card">
+        <span class="section-icon">🔬</span>
+        <div class="section-name">علمي علوم</div>
+        <div class="section-desc">طلاب شعبة العلوم - الأحياء والكيمياء والفيزياء</div>
+        <div class="section-subjects">
+          <span class="subject-tag">أحياء</span><span class="subject-tag">كيمياء</span><span class="subject-tag">فيزياء</span><span class="subject-tag">عربي</span><span class="subject-tag">إنجليزي</span>
+        </div>
+        <a href="#" class="leak-btn disabled" data-section="علمي علوم">🔓 تسريب علمي علوم</a>
+      </div>
+
+      <div class="section-card">
+        <span class="section-icon">📐</span>
+        <div class="section-name">علمي رياضة</div>
+        <div class="section-desc">طلاب شعبة الرياضيات - الهندسة والتفاضل والتكامل</div>
+        <div class="section-subjects">
+          <span class="subject-tag">رياضة بحتة</span><span class="subject-tag">رياضة تطبيقية</span><span class="subject-tag">فيزياء</span><span class="subject-tag">كيمياء</span><span class="subject-tag">عربي</span>
+        </div>
+        <a href="#" class="leak-btn disabled" data-section="علمي رياضة">🔓 تسريب علمي رياضة</a>
+      </div>
+
+      <div class="section-card">
+        <span class="section-icon">📚</span>
+        <div class="section-name">أدبي</div>
+        <div class="section-desc">طلاب الشعبة الأدبية - التاريخ والجغرافيا وعلم النفس</div>
+        <div class="section-subjects">
+          <span class="subject-tag">تاريخ</span><span class="subject-tag">جغرافيا</span><span class="subject-tag">علم نفس</span><span class="subject-tag">فلسفة</span><span class="subject-tag">عربي</span>
+        </div>
+        <a href="#" class="leak-btn disabled" data-section="أدبي">🔓 تسريب أدبي</a>
+      </div>
+    </section>
+
+    <!-- معلومات -->
+    <section class="info-section">
+      <div class="info-title">📋 لماذا تثق في شاومينج؟</div>
+      <div class="info-grid">
+        <div class="info-card"><span class="info-icon">🔒</span><div class="info-card-title">تسريب مضمون 100%</div><div class="info-card-desc">نضمن لك تطابق الامتحان المسرب مع الامتحان الفعلي بالكامل</div></div>
+        <div class="info-card"><span class="info-icon">⚡</span><div class="info-card-title">توصيل فوري</div><div class="info-card-desc">بمجرد إتمام الإيداع يصلك التسريب فوراً على بريدك الإلكتروني</div></div>
+        <div class="info-card"><span class="info-icon">🛡️</span><div class="info-card-title">سريّة تامة</div><div class="info-card-desc">بياناتك مؤمنة بالكامل ولا يتم مشاركتها مع أي طرف</div></div>
+        <div class="info-card"><span class="info-icon">💎</span><div class="info-card-title">سعر رمزي</div><div class="info-card-desc">أقل سعر للتسريب في مصر مع ضمان الجودة</div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== تذييل صغير ===== -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-title">📞 تواصل معنا</div>
+      <div class="footer-links">
+        <a href="#">سياسة الخصوصية</a>
+        <a href="#">شروط الاستخدام</a>
+        <a href="#">الأسئلة الشائعة</a>
+      </div>
+      <div class="footer-copyright">
+        © 2026 شاومينج · جميع الحقوق محفوظة
+      </div>
+      <div class="footer-decoration">
+        ꧁༒☬ SHAWMING ☬༒꧂
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== زر دعم عائم ☢ تيليجرام ===== -->
+  <a href="https://t.me/ShawmingSupport" target="_blank" class="floating-support" title="الدعم الفني @ShawmingSupport">
+    <span class="floating-support-icon">☢</span>
+  </a>
+  <div class="floating-tooltip">@ShawmingSupport</div>
+
+  <script>
+    (function() {
+      // ===== خلفية qf.png - واضحة بالكامل =====
+      const bg = document.getElementById('bgImage');
+      const img = new Image();
+      img.onload = () => { bg.style.backgroundImage = "url('qf.png')"; };
+      img.onerror = () => { bg.style.background = '#000'; };
+      img.src = 'qf.png';
+
+      // ===== محافظات =====
+      const governorates = [
+        'القاهرة', 'الإسكندرية', 'الجيزة', 'القليوبية', 'المنوفية', 'الغربية',
+        'الدقهلية', 'الشرقية', 'البحيرة', 'كفر الشيخ', 'دمياط', 'بورسعيد',
+        'الإسماعيلية', 'السويس', 'شمال سيناء', 'جنوب سيناء', 'مطروح',
+        'الفيوم', 'بني سويف', 'المنيا', 'أسيوط', 'سوهاج', 'قنا',
+        'الأقصر', 'أسوان', 'الوادي الجديد', 'البحر الأحمر'
+      ];
+
+      let selectedGovernorate = null;
+      const grid = document.getElementById('governorateGrid');
+      const toast = document.getElementById('toast');
+      const leakBtns = document.querySelectorAll('.leak-btn');
+
+      governorates.forEach(gov => {
+        const btn = document.createElement('button');
+        btn.className = 'gov-btn';
+        btn.textContent = gov;
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.gov-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          selectedGovernorate = gov;
+          leakBtns.forEach(b => b.classList.remove('disabled'));
+          toast.style.display = 'none';
+        });
+        grid.appendChild(btn);
+      });
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = 'block';
+        toast.style.animation = 'slideIn 0.4s ease, slideOut 0.4s ease 2.5s forwards';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+      }
+
+      leakBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (!selectedGovernorate) {
+            showToast('⚠️ يجب اختيار المحافظة أولاً');
+            return;
+          }
+          const section = this.dataset.section;
+          sessionStorage.setItem('shawming_section', section);
+          sessionStorage.setItem('shawming_governorate', selectedGovernorate);
+          window.location.href = 'deposit.html?section=' + encodeURIComponent(section) + '&gov=' + encodeURIComponent(selectedGovernorate);
+        });
+      });
+
+      // ===== جسيمات =====
+      const particlesContainer = document.getElementById('particles');
+      const chars = ['⌘', '⌬', '⍟', '⌗', '⎈', '⌨', '⚡', '☠', '☣', '☢', '⚠', '#', '@', '$', '%', '&', '*'];
+      function createParticle() {
+        const p = document.createElement('span');
+        p.className = 'particle';
+        p.textContent = chars[Math.floor(Math.random() * chars.length)];
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (Math.random() * 3 + 4) + 's';
+        p.style.animationDelay = Math.random() * 5 + 's';
+        particlesContainer.appendChild(p);
+        setTimeout(() => p.remove(), 9000);
+      }
+      setInterval(createParticle, 350);
+      for (let i = 0; i < 18; i++) setTimeout(createParticle, i * 120);
+    })();
+  </script>
+</body>
+</html>
